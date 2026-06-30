@@ -20,16 +20,6 @@ function App() {
   }, [notes])
 
 
-  const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
-  useEffect(()=> {
-    setFilteredNotes(notes)
-  }, [notes])
-
-  const noteSearch = (text: string) => {
-    setSearchText(text);
-  }
-
-
   const createNote = () => {
     const newNote: Note = {
       id: Date.now(),
@@ -41,10 +31,7 @@ function App() {
   }
 
 
-  const checkNote = () => {
-    const filtered = notes.filter(note=> note.title.toLowerCase().includes(searchText.toLowerCase()) || note.text.toLowerCase().includes(searchText.toLowerCase()));
-    setFilteredNotes(filtered);
-  }
+  const filteredNotes = notes.filter(note=> note.title.toLowerCase().includes(searchText.toLowerCase()) || note.text.toLowerCase().includes(searchText.toLowerCase()));
 
 
   const deleteNote = (id: number) => {
@@ -54,14 +41,14 @@ function App() {
   }
 
 
+
+
   return (
     <>
       <div className='nav-bar'>
         <div className='search-section'>
           <input type="text"
-          onChange={(e)=> noteSearch(e.target.value)}/>
-          <button className='search-btn'
-          onClick={()=> checkNote()}>Search</button>
+          onChange={(e)=> setSearchText(e.target.value)}/>
         </div>
         <div className='tools'>
           <button className='create-note'
@@ -73,7 +60,7 @@ function App() {
           {filteredNotes.map(note=> (
             <li key={note.id}>
 
-              
+
               <p>{note.text}</p>
               <button className='delete-note'
               onClick={()=> deleteNote(note.id)}>X</button>
