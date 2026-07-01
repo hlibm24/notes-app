@@ -10,7 +10,7 @@ interface Note {
 
 function App() {
   const [searchText, setSearchText] = useState('');
-  
+  const [editedId, setEditedId] = useState<number | null>(null);
   const [notes, setNotes] = useState<Note[]>(()=> {
     const saved = localStorage.getItem('notes');
     return saved ? JSON.parse(saved) : []
@@ -40,7 +40,13 @@ function App() {
     )
   }
 
-
+  const updateTitle = (id: number, newTitle: string) => {
+    setNotes(prev=>
+      prev.map(note=> 
+        note.id === id ? {...note, title: newTitle} : note
+      )
+    )
+  }
 
 
   return (
@@ -60,11 +66,21 @@ function App() {
           {filteredNotes.map(note=> (
             <li key={note.id}>
 
+              {editedId === note.id ? (
+                <input type="text"
+                value={note.title}
+                onChange={(e)=> updateTitle(note.id, e.target.value)}
+                onBlur={()=> setEditedId(null)}
+                onKeyDown={(e)=> {if (e.key === 'Enter') setEditedId(null)}} />
+              ) : (
+                <h3>{note.title}</h3>
+              )}
 
               <p>{note.text}</p>
               <button className='delete-note'
               onClick={()=> deleteNote(note.id)}>X</button>
-              
+              <button className='update-title'
+              onClick={()=> setEditedId(note.id)}>Update title</button>
             </li>
           ))}
         </ul>
