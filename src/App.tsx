@@ -49,6 +49,20 @@ function App() {
   }
 
 
+  const toggleFavorite = (id: number) => {
+    setNotes(prev=>
+      prev.map(note=>
+        note.id === id ? {...note, favorite: !note.favorite} : note
+      )
+    )
+  }
+
+  const favList = notes.filter(note=> note.favorite === true)
+
+
+
+
+
   return (
     <>
       <div className='nav-bar'>
@@ -62,7 +76,34 @@ function App() {
         </div>
       </div>
       <div className='main-section'>
+        <ul className='fav-notes'>
+          
+          {favList.map(note=> (
+            <li key={note.id}>
+              {editedId === note.id ? (
+                <input type="text"
+                value={note.title}
+                onChange={(e)=> updateTitle(note.id, e.target.value)}
+                onBlur={()=> setEditedId(null)}
+                onKeyDown={(e)=> {if (e.key === 'Enter') setEditedId(null)}} />
+              ) : (
+                <h3>{note.title}</h3>
+              )}
+
+              <p>{note.text}</p>
+              <button className='delete-note'
+              onClick={()=> deleteNote(note.id)}>X</button>
+              <button className='update-title'
+              onClick={()=> setEditedId(note.id)}>Update title</button>
+              <button className='addToFav'
+              onClick={()=> toggleFavorite(note.id)}>{note.favorite ? 'Delete from favorites' : 'Add to favorites'}</button>
+            </li>
+          ))}
+
+        </ul>
+
         <ul className='note-list'>
+
           {filteredNotes.map(note=> (
             <li key={note.id}>
 
@@ -81,6 +122,8 @@ function App() {
               onClick={()=> deleteNote(note.id)}>X</button>
               <button className='update-title'
               onClick={()=> setEditedId(note.id)}>Update title</button>
+              <button className='addToFav'
+              onClick={()=> toggleFavorite(note.id)}>{note.favorite ? 'Delete from favorites' : 'Add to favorites'}</button>
             </li>
           ))}
         </ul>
