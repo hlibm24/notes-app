@@ -1,3 +1,4 @@
+import {useEffect, useRef} from 'react'
 import type {Note} from '../types/note'
 
 interface NotesSectionProps{
@@ -7,17 +8,28 @@ interface NotesSectionProps{
     updateTitle: (id: number, newTitle: string)=> void;
     deleteNote: (id: number)=> void;
     toggleFavorite: (id: number)=> void;
+    onNoteClick: (id: number | null)=> void;
 }
 
-function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, deleteNote, toggleFavorite}: NotesSectionProps) {
-    return (
+function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, deleteNote, toggleFavorite, onNoteClick}: NotesSectionProps) {
+    
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(()=> {
+    if(inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [editedId])
+  
+  return (
         <ul className='note-list'>
 
           {filteredNotes.map(note=> (
-            <li key={note.id}>
+            <li key={note.id} onClick={()=> onNoteClick(note.id)}>
 
               {editedId === note.id ? (
                 <input type="text"
+                ref={inputRef}
                 value={note.title}
                 onChange={(e)=> updateTitle(note.id, e.target.value)}
                 onBlur={()=> setEditedId(null)}
@@ -28,11 +40,17 @@ function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, delete
 
               <p>{note.text}</p>
               <button className='delete-note'
-              onClick={()=> deleteNote(note.id)}>X</button>
+              onClick={(e)=> {deleteNote(note.id)
+                e.stopPropagation()
+              }}>X</button>
               <button className='update-title'
-              onClick={()=> setEditedId(note.id)}>Update title</button>
+              onClick={(e)=> {setEditedId(note.id)
+                e.stopPropagation()
+              }}>Update title</button>
               <button className='addToFav'
-              onClick={()=> toggleFavorite(note.id)}>{note.favorite ? 'Delete from favorites' : 'Add to favorites'}</button>
+              onClick={(e)=> {toggleFavorite(note.id)
+                e.stopPropagation()
+              }}>{note.favorite ? 'Delete from favorites' : 'Add to favorites'}</button>
             </li>
           ))}
         </ul>

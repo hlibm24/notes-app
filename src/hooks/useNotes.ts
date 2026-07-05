@@ -1,9 +1,7 @@
 import {useState, useEffect} from 'react'
-import {useSearch} from '../hooks/useSearch'
 import type {Note} from '../types/note'
 
 export function useNotes() {
-    const {searchText} = useSearch();
 
     const [editedId, setEditedId] = useState<number | null>(null);
     const [notes, setNotes] = useState<Note[]>(()=> {
@@ -25,17 +23,12 @@ export function useNotes() {
         setNotes(prev=>[...prev, newNote]);
     }
 
-    const filteredNotes = notes.filter(note=> note.title.toLowerCase().includes(searchText.toLowerCase()) || note.text.toLowerCase().includes(searchText.toLowerCase()));
-
-
     return {
         editedId,
         setEditedId,
         notes,
         setNotes,
         createNote, 
-        filteredNotes,
-        
     }
 }
 

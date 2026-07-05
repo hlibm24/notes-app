@@ -7,14 +7,16 @@ interface FavoritesProps {
     setEditedId: (id: number | null) => void;
     deleteNote: (id: number)=> void;
     toggleFavorite: (id: number) => void;
+    onNoteClick: (id: number | null) => void;
 }
 
 
-function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, toggleFavorite}: FavoritesProps) {
+function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, toggleFavorite, onNoteClick}: FavoritesProps) {
+
     return (
         <ul className='fav-notes'>
         {favList.map(note=> (
-            <li key={note.id}>
+            <li key={note.id} onClick={()=> onNoteClick(note.id)}>
               {editedId === note.id ? (
                 <input type="text"
                 value={note.title}
@@ -27,16 +29,21 @@ function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, tog
 
               <p>{note.text}</p>
               <button className='delete-note'
-              onClick={()=> deleteNote(note.id)}>X</button>
+              onClick={(e)=> {deleteNote(note.id)
+                e.stopPropagation()
+              }}>X</button>
               <button className='update-title'
-              onClick={()=> setEditedId(note.id)}>Update title</button>
+              onClick={(e)=> {setEditedId(note.id)
+                e.stopPropagation()
+              }}>Update title</button>
               <button className='addToFav'
-              onClick={()=> toggleFavorite(note.id)}>{note.favorite ? 'Delete from favorites' : 'Add to favorites'}</button>
+              onClick={(e)=> {toggleFavorite(note.id)
+                e.stopPropagation()
+              }}>{note.favorite ? 'Delete from favorites' : 'Add to favorites'}</button>
             </li>
           ))}
     </ul>
     )
-    
     
 }
 

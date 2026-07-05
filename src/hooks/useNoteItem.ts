@@ -1,10 +1,12 @@
 import type { Note } from '../types/note';
 
 interface UseNoteReturn {
-  deleteNote: (id: number) => void
-  updateTitle: (id: number, newTitle: string) => void
-  toggleFavorite: (id: number) => void
+  deleteNote: (id: number) => void;
+  updateTitle: (id: number, newTitle: string) => void;
+  updateText: (id: number, newText: string) => void;
+  toggleFavorite: (id: number) => void;
 }
+
 
 export function useNote(setNotes: React.Dispatch<React.SetStateAction<Note[]>>): UseNoteReturn {
 
@@ -23,6 +25,14 @@ export function useNote(setNotes: React.Dispatch<React.SetStateAction<Note[]>>):
     )
   }
 
+  const updateText = (id: number, newText: string) => {
+    setNotes(prev=>
+      prev.map(note=>
+        note.id === id ? {...note, text: newText} : note
+      )
+    )
+  }
+
   const toggleFavorite = (id: number) => {
     setNotes(prev=>
       prev.map(note=>
@@ -30,10 +40,12 @@ export function useNote(setNotes: React.Dispatch<React.SetStateAction<Note[]>>):
       )
     )
   }
+
   
   return {
     deleteNote,
     updateTitle,
-    toggleFavorite
+    toggleFavorite,
+    updateText,
   }
 }
