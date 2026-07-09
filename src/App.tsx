@@ -5,6 +5,7 @@ import NotesSection from './components/NotesSection';
 import Favorites from './components/Favorites';
 import Modal from './components/Modal';
 
+
 import {useSearch} from './hooks/useSearch';
 import {useNote} from './hooks/useNoteItem';
 import {useNotes} from './hooks/useNotes';

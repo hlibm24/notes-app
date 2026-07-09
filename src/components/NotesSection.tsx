@@ -1,7 +1,9 @@
 import {useEffect, useRef} from 'react'
 import type {Note} from '../types/note'
 
-interface NotesSectionProps{
+import DropDownMenu from '../components/DropDownMenu';
+
+interface NotesSectionProps {
     filteredNotes: Note[];
     editedId: number | null;
     setEditedId: (id: number | null)=> void;
@@ -39,18 +41,14 @@ function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, delete
               )}
 
               <p>{note.text}</p>
-              <button className='delete-note'
-              onClick={(e)=> {deleteNote(note.id)
-                e.stopPropagation()
-              }}>X</button>
-              <button className='update-title'
-              onClick={(e)=> {setEditedId(note.id)
-                e.stopPropagation()
-              }}>Update title</button>
-              <button className='addToFav'
-              onClick={(e)=> {toggleFavorite(note.id)
-                e.stopPropagation()
-              }}>{note.favorite ? 'Delete from favorites' : 'Add to favorites'}</button>
+              
+              <DropDownMenu
+              deleteNote={deleteNote}
+              toggleFavorite={toggleFavorite}
+              setEditedId={setEditedId}
+              noteId={note.id}
+              favorite={note.favorite}/>
+
             </li>
           ))}
         </ul>
