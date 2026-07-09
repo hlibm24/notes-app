@@ -1,7 +1,8 @@
 import {useEffect, useRef} from 'react'
 import type {Note} from '../types/note'
 
-import DropDownMenu from '../components/DropDownMenu';
+import DropdownMenu from './DropdownMenu';
+import { useDropdown } from '../hooks/useDropdown';
 
 interface NotesSectionProps {
     filteredNotes: Note[];
@@ -14,7 +15,8 @@ interface NotesSectionProps {
 }
 
 function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, deleteNote, toggleFavorite, onNoteClick}: NotesSectionProps) {
-    
+  
+  const {openDropdownId, toggleDropdown} = useDropdown();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(()=> {
@@ -22,7 +24,8 @@ function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, delete
       inputRef.current.focus();
     }
   }, [editedId])
-  
+
+
   return (
         <ul className='note-list'>
 
@@ -42,13 +45,14 @@ function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, delete
 
               <p>{note.text}</p>
               
-              <DropDownMenu
+              <DropdownMenu
               deleteNote={deleteNote}
               toggleFavorite={toggleFavorite}
               setEditedId={setEditedId}
               noteId={note.id}
-              favorite={note.favorite}/>
-
+              favorite={note.favorite}
+              toggleDropdown={toggleDropdown}
+              openDropdownId={openDropdownId}/>
             </li>
           ))}
         </ul>
