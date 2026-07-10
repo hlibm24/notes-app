@@ -1,7 +1,7 @@
+import type { OpenDropdown } from '../hooks/useDropdown';
 import type { Note } from '../types/note';
 
 import DropdownMenu from './DropdownMenu';
-import { useDropdown } from '../hooks/useDropdown';
 
 interface FavoritesProps {
     favList: Note[];
@@ -11,12 +11,13 @@ interface FavoritesProps {
     deleteNote: (id: number)=> void;
     toggleFavorite: (id: number) => void;
     onNoteClick: (id: number | null) => void;
+    openDropdown: OpenDropdown;
+    toggleDropdown: (id: number, sourse: 'notes' | 'favorites') => void;
 }
 
 
-function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, toggleFavorite, onNoteClick}: FavoritesProps) {
+function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, toggleFavorite, onNoteClick, openDropdown, toggleDropdown}: FavoritesProps) {
 
-  const {openDropdownId, toggleDropdown} = useDropdown();
 
   return (
       <ul className='fav-notes'>
@@ -40,8 +41,9 @@ function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, tog
             setEditedId={setEditedId}
             noteId={note.id}
             favorite={note.favorite}
-            openDropdownId={openDropdownId}
-            toggleDropdown={toggleDropdown}/>
+            openDropdown={openDropdown}
+            toggleDropdown={(id)=> toggleDropdown(id, 'favorites')}
+            sourse='favorites'/>
           </li>
         ))}
     </ul>

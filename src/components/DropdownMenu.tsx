@@ -1,3 +1,4 @@
+import type { OpenDropdown } from "../hooks/useDropdown";
 
 interface DropdownMenuProps {
   deleteNote: (id: number) => void;
@@ -5,18 +6,19 @@ interface DropdownMenuProps {
   setEditedId: (id: number | null) => void;
   noteId: number;
   favorite: boolean;
-  openDropdownId: number | null;
-  toggleDropdown: (id: number) => void;
+  openDropdown: OpenDropdown;
+  toggleDropdown: (id: number, sourse: 'notes' | 'favorites') => void;
+  sourse: 'notes' | 'favorites'
 }
 
-function DropdownMenu({deleteNote, toggleFavorite, setEditedId, noteId, favorite, openDropdownId, toggleDropdown}: DropdownMenuProps) {
+function DropdownMenu({deleteNote, toggleFavorite, setEditedId, noteId, favorite, openDropdown, toggleDropdown, sourse}: DropdownMenuProps) {
   
-  const isOpen = openDropdownId === noteId;
+  const isOpen = openDropdown?.id === noteId && openDropdown?.sourse === sourse;
 
   return (
     <>
       <button className="dropdown-trigger"
-      onClick={(e) => {e.stopPropagation(); toggleDropdown(noteId)}}>⋮</button>
+      onClick={(e) => {e.stopPropagation(); toggleDropdown(noteId, sourse)}}>⋮</button>
       {isOpen && (
         <div className="dropdown-menu">
           <button className="delete-note"

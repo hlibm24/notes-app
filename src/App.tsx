@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './App.css'
 
 import SearchBar from './components/SearchBar';
@@ -9,7 +10,7 @@ import Modal from './components/Modal';
 import {useSearch} from './hooks/useSearch';
 import {useNote} from './hooks/useNoteItem';
 import {useNotes} from './hooks/useNotes';
-import { useState } from 'react';
+import { useDropdown } from './hooks/useDropdown';
 
 
 
@@ -17,6 +18,8 @@ function App() {
   const {searchText, setSearchText} = useSearch();
   const {editedId, setEditedId, setNotes, createNote, notes} = useNotes();
   const {deleteNote, updateTitle, updateText,toggleFavorite} = useNote(setNotes);
+
+  const {openDropdown, toggleDropdown} = useDropdown();
 
   const filteredNotes = notes.filter(note=> note.title.toLowerCase().includes(searchText.toLowerCase()) || note.text.toLowerCase().includes(searchText.toLowerCase()));
 
@@ -48,7 +51,9 @@ function App() {
           deleteNote={deleteNote}
           toggleFavorite={toggleFavorite}
           onNoteClick={setSelectedNoteId}
-            />
+          openDropdown={openDropdown}
+          toggleDropdown={toggleDropdown}
+          />
 
           <NotesSection
           filteredNotes={filteredNotes}
@@ -58,6 +63,8 @@ function App() {
           deleteNote={deleteNote}
           toggleFavorite={toggleFavorite}
           onNoteClick={setSelectedNoteId}
+          openDropdown={openDropdown}
+          toggleDropdown={toggleDropdown}
           />
       </div>
 

@@ -1,21 +1,28 @@
 import {useState, useEffect} from 'react';
 
+export type OpenDropdown = {
+    id: number;
+    sourse: 'notes' | 'favorites';
+} | null;
 
 export function useDropdown () {
 
-    const [openDropdownId, setOpenDropdownId] = useState<number | null> (null);
 
-    const toggleDropdown = (id: number) => {
-        setOpenDropdownId(prev => prev === id ? null : id);
+    const [openDropdown, setOpenDropdown] = useState<OpenDropdown>(null);
+
+    const toggleDropdown = (id: number, sourse: 'notes' | 'favorites') => {
+        setOpenDropdown(prev=>
+            prev?.id === id && prev?.sourse === sourse ? null : {id, sourse}
+        )
     }
-  
+
     useEffect(() => {
-        const handleClickOutside = () => setOpenDropdownId(null);
+        const handleClickOutside = () => setOpenDropdown(null);
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
     }, []);
 
-    return {openDropdownId,
+    return {openDropdown,
         toggleDropdown,
     }
 }
