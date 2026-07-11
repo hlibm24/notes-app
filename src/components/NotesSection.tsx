@@ -4,6 +4,10 @@ import type {Note} from '../types/note'
 import DropdownMenu from './DropdownMenu';
 import type { OpenDropdown } from '../hooks/useDropdown';
 
+import type {SortType,} from '../hooks/useDropdownFilter';
+import DropdownFilter from '../components/DropdownFilter'
+
+
 interface NotesSectionProps {
     filteredNotes: Note[];
     editedId: number | null;
@@ -14,9 +18,14 @@ interface NotesSectionProps {
     onNoteClick: (id: number | null)=> void;
     openDropdown: OpenDropdown;
     toggleDropdown: (id: number, sourse: 'notes' | 'favorites') => void;
+    setSortType: (type: SortType) => void;
+    sortType: SortType;
+    isOpen: boolean;
+    toggle: ()=> void;
+    ref: React.RefObject<HTMLDivElement | null>;
 }
 
-function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, deleteNote, toggleFavorite, onNoteClick, openDropdown, toggleDropdown}: NotesSectionProps) {
+function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, deleteNote, toggleFavorite, onNoteClick, openDropdown, toggleDropdown, setSortType, sortType, isOpen, toggle, ref}: NotesSectionProps) {
   
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -27,10 +36,25 @@ function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, delete
   }, [editedId])
 
 
-  return (
-        <ul className='note-list'>
+  const sortedNotes = [...filteredNotes].sort((a, b)=> {
+    if(sortType === 'newest') return b.id - a.id;
+    return a.id - b.id
+  })
 
-          {filteredNotes.map(note=> (
+  return (
+      <div className='notesList-container'>
+        <div className='tool-btns'>
+          <DropdownFilter
+          sortType={sortType}
+          setSortType={setSortType}
+          isOpen={isOpen}
+          toggle={toggle}
+          ref={ref}
+          />
+        </div>
+        <ul className='notes-list'>
+
+          {sortedNotes.map(note=> (
             <li key={note.id} onClick={()=> onNoteClick(note.id)}>
 
               {editedId === note.id ? (
@@ -58,6 +82,7 @@ function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, delete
             </li>
           ))}
         </ul>
+      </div>
     )
 }
 

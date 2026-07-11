@@ -3,6 +3,9 @@ import type { Note } from '../types/note';
 
 import DropdownMenu from './DropdownMenu';
 
+import type {SortType} from '../hooks/useDropdownFilter'
+import DropdownFilter from '../components/DropdownFilter';
+
 interface FavoritesProps {
     favList: Note[];
     updateTitle: (id: number, newTitle: string) => void;
@@ -13,15 +16,35 @@ interface FavoritesProps {
     onNoteClick: (id: number | null) => void;
     openDropdown: OpenDropdown;
     toggleDropdown: (id: number, sourse: 'notes' | 'favorites') => void;
+
+    sortType: SortType;
+    setSortType: (type: SortType)=> void;
+    isOpen: boolean;
+    toggle: ()=> void;
+    ref: React.RefObject<HTMLDivElement | null>;
 }
 
 
-function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, toggleFavorite, onNoteClick, openDropdown, toggleDropdown}: FavoritesProps) {
+function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, toggleFavorite, onNoteClick, openDropdown, toggleDropdown, sortType, setSortType, isOpen, toggle, ref}: FavoritesProps) {
 
+  const sortedFavs = [...favList].sort((a, b)=> {
+    if(sortType === 'newest') return b.id - a.id;
+    return a.id - b.id
+  })
 
   return (
+    <div className='favList-container'>
+      <div className='tool-btns'>
+        <DropdownFilter
+        sortType={sortType}
+        setSortType={setSortType}
+        isOpen={isOpen}
+        toggle={toggle}
+        ref={ref}
+        />
+      </div>
       <ul className='fav-notes'>
-      {favList.map(note=> (
+      {sortedFavs.map(note=> (
           <li key={note.id} onClick={()=> onNoteClick(note.id)}>
             {editedId === note.id ? (
               <input type="text"
@@ -46,7 +69,8 @@ function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, tog
             sourse='favorites'/>
           </li>
         ))}
-    </ul>
+      </ul>
+    </div>
   ) 
 }
 

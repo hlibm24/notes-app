@@ -11,6 +11,7 @@ import {useSearch} from './hooks/useSearch';
 import {useNote} from './hooks/useNoteItem';
 import {useNotes} from './hooks/useNotes';
 import { useDropdown } from './hooks/useDropdown';
+import { useDropdownFilter } from './hooks/useDropdownFilter';
 
 
 
@@ -18,6 +19,8 @@ function App() {
   const {searchText, setSearchText} = useSearch();
   const {editedId, setEditedId, setNotes, createNote, notes} = useNotes();
   const {deleteNote, updateTitle, updateText,toggleFavorite} = useNote(setNotes);
+  const {sortType: notesSortType, setSortType: setNotesSortType, isOpen: notesIsOpen, toggle: notesToggle, ref: notesRef} = useDropdownFilter();
+  const {sortType: favSortType, setSortType: setFavSortType, isOpen: favIsOpen, toggle: favToggle, ref: favRef} = useDropdownFilter();
 
   const {openDropdown, toggleDropdown} = useDropdown();
 
@@ -53,6 +56,12 @@ function App() {
           onNoteClick={setSelectedNoteId}
           openDropdown={openDropdown}
           toggleDropdown={toggleDropdown}
+
+          sortType={favSortType}
+          setSortType={setFavSortType}
+          isOpen={favIsOpen}
+          toggle={favToggle}
+          ref={favRef}
           />
 
           <NotesSection
@@ -65,6 +74,12 @@ function App() {
           onNoteClick={setSelectedNoteId}
           openDropdown={openDropdown}
           toggleDropdown={toggleDropdown}
+
+          sortType={notesSortType}
+          setSortType={setNotesSortType}
+          isOpen={notesIsOpen}
+          toggle={notesToggle}
+          ref={notesRef}
           />
       </div>
 
