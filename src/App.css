@@ -304,15 +304,15 @@
     background: #e5e7eb;
 }
 
-
 @media (max-width: 600px) {
-    .note-list-container,
+    .noteList-container,
     .favList-container {
         padding: 16px 12px;
     }
 
     .notes-list,
     .fav-notes {
+        width: 100%;
         grid-template-columns: 1fr;
         gap: 12px;
     }
