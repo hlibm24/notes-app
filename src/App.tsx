@@ -45,51 +45,48 @@ function App() {
       setSearchText={setSearchText}
       createNote={createNote}
       />
-      <div className='main-section'>
-          <Favorites
-          favList={favList}
-          updateTitle={updateTitle}
-          editedId={editedId}
-          setEditedId={setEditedId}
-          deleteNote={deleteNote}
-          toggleFavorite={toggleFavorite}
-          onNoteClick={setSelectedNoteId}
-          openDropdown={openDropdown}
-          toggleDropdown={toggleDropdown}
 
-          sortType={favSortType}
-          setSortType={setFavSortType}
-          isOpen={favIsOpen}
-          toggle={favToggle}
-          ref={favRef}
-          />
-
-          <NotesSection
-          filteredNotes={filteredNotes}
-          editedId={editedId}
-          setEditedId={setEditedId}
-          updateTitle={updateTitle}
-          deleteNote={deleteNote}
-          toggleFavorite={toggleFavorite}
-          onNoteClick={setSelectedNoteId}
-          openDropdown={openDropdown}
-          toggleDropdown={toggleDropdown}
-
-          sortType={notesSortType}
-          setSortType={setNotesSortType}
-          isOpen={notesIsOpen}
-          toggle={notesToggle}
-          ref={notesRef}
-          />
-      </div>
-
-      {isModalOpen && (
-        <Modal
-        selectedNote={selectedNote}
-        handleCloseModal={handleCloseModal}
-        updateText={updateText}
+      <Favorites
+      favList={favList}
+      updateTitle={updateTitle}
+      editedId={editedId}
+      setEditedId={setEditedId}
+      deleteNote={deleteNote}
+      toggleFavorite={toggleFavorite}
+      onNoteClick={setSelectedNoteId}
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      sortType={favSortType}
+      setSortType={setFavSortType}
+      isOpen={favIsOpen}
+      toggle={favToggle}
+      ref={favRef}
       />
-      )}
+
+      <NotesSection
+      filteredNotes={filteredNotes}
+      editedId={editedId}
+      setEditedId={setEditedId}
+      updateTitle={updateTitle}
+      deleteNote={deleteNote}
+      toggleFavorite={toggleFavorite}
+      onNoteClick={setSelectedNoteId}
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      sortType={notesSortType}
+      setSortType={setNotesSortType}
+      isOpen={notesIsOpen}
+      toggle={notesToggle}
+      ref={notesRef}
+      />
+
+    {isModalOpen && (
+      <Modal
+      selectedNote={selectedNote}
+      handleCloseModal={handleCloseModal}
+      updateText={updateText}
+      />
+    )}
       
     </>
   )

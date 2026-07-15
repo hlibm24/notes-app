@@ -12,9 +12,9 @@ function SearchBar({searchText, setSearchText, createNote}: SearchBarProps) {
             <div className='search-section'>
                 <input type="text"
                 value={searchText}
-                onChange={(e)=> setSearchText(e.target.value)}/>
-            </div>
-            <div className='tools'>
+                onChange={(e)=> setSearchText(e.target.value)}
+                placeholder="Search..."/>
+                
                 <button className='create-note'
                 onClick={createNote}>Create note</button>
             </div>

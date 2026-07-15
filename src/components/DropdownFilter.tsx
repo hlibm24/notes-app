@@ -11,7 +11,7 @@ interface DropdownFilterProps {
 function DropdownFilter ({sortType, setSortType, isOpen, toggle, ref}:DropdownFilterProps) {
 
     return (
-        <>
+        <div className="dropdownFilter-wrapper">
             <button className="dropdownFilter-btn"
             onClick={toggle}>Filter: {sortType === 'newest' ? 'New first' : 'Old first'}</button>
             {isOpen && (
@@ -29,7 +29,7 @@ function DropdownFilter ({sortType, setSortType, isOpen, toggle, ref}:DropdownFi
                     }}>Old first</button>
                 </div>
             )}
-        </>
+        </div>
     )
 }
 

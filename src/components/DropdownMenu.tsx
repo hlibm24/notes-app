@@ -7,26 +7,32 @@ interface DropdownMenuProps {
   noteId: number;
   favorite: boolean;
   openDropdown: OpenDropdown;
-  toggleDropdown: (id: number, sourse: 'notes' | 'favorites') => void;
-  sourse: 'notes' | 'favorites'
+  toggleDropdown: (id: number, source: 'notes' | 'favorites') => void;
+  source: 'notes' | 'favorites'
 }
 
-function DropdownMenu({deleteNote, toggleFavorite, setEditedId, noteId, favorite, openDropdown, toggleDropdown, sourse}: DropdownMenuProps) {
+function DropdownMenu({deleteNote, toggleFavorite, setEditedId, noteId, favorite, openDropdown, toggleDropdown, source}: DropdownMenuProps) {
   
-  const isOpen = openDropdown?.id === noteId && openDropdown?.sourse === sourse;
+  const isOpen = openDropdown?.id === noteId && openDropdown?.source === source;
 
   return (
     <>
       <button className="dropdown-trigger"
-      onClick={(e) => {e.stopPropagation(); toggleDropdown(noteId, sourse)}}>⋮</button>
+      onClick={(e) => {e.stopPropagation(); toggleDropdown(noteId, source)}}>⋮</button>
       {isOpen && (
         <div className="dropdown-menu">
-          <button className="delete-note"
-          onClick={(e) => {deleteNote(noteId); e.stopPropagation()}}>X</button>
-          <button className="update-title"
-          onClick={(e) => {setEditedId(noteId); e.stopPropagation()}}>Update title</button>
-          <button className="addToFav"
-          onClick={(e) => {toggleFavorite(noteId); e.stopPropagation()}}>
+          <button onClick={(e) => {e.stopPropagation();
+          deleteNote(noteId);  
+          toggleDropdown(noteId, source);
+          }}>X</button>
+          <button onClick={(e) => {e.stopPropagation()
+          setEditedId(noteId);
+          toggleDropdown(noteId, source)
+          }}>Update title</button>
+          <button onClick={(e) => {e.stopPropagation();
+          toggleFavorite(noteId); 
+          toggleDropdown(noteId, source);
+          }}>
             {favorite ? 'Delete from favorites' : 'Add to favorites'}
           </button>
         </div>

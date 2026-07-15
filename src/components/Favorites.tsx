@@ -15,7 +15,7 @@ interface FavoritesProps {
     toggleFavorite: (id: number) => void;
     onNoteClick: (id: number | null) => void;
     openDropdown: OpenDropdown;
-    toggleDropdown: (id: number, sourse: 'notes' | 'favorites') => void;
+    toggleDropdown: (id: number, source: 'notes' | 'favorites') => void;
 
     sortType: SortType;
     setSortType: (type: SortType)=> void;
@@ -45,7 +45,10 @@ function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, tog
       </div>
       <ul className='fav-notes'>
       {sortedFavs.map(note=> (
-          <li key={note.id} onClick={()=> onNoteClick(note.id)}>
+        <li key={note.id} 
+        className={`note-item ${note.favorite ? 'favorite' : ''}`}
+        onClick={()=> onNoteClick(note.id)}>
+          
             {editedId === note.id ? (
               <input type="text"
               value={note.title}
@@ -66,7 +69,7 @@ function Favorites({favList, updateTitle, editedId, setEditedId, deleteNote, tog
             favorite={note.favorite}
             openDropdown={openDropdown}
             toggleDropdown={(id)=> toggleDropdown(id, 'favorites')}
-            sourse='favorites'/>
+            source='favorites'/>
           </li>
         ))}
       </ul>

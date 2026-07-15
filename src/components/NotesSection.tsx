@@ -4,8 +4,8 @@ import type {Note} from '../types/note'
 import DropdownMenu from './DropdownMenu';
 import type { OpenDropdown } from '../hooks/useDropdown';
 
+import DropdownFilter from './DropdownFilter'
 import type {SortType,} from '../hooks/useDropdownFilter';
-import DropdownFilter from '../components/DropdownFilter'
 
 
 interface NotesSectionProps {
@@ -17,7 +17,7 @@ interface NotesSectionProps {
     toggleFavorite: (id: number)=> void;
     onNoteClick: (id: number | null)=> void;
     openDropdown: OpenDropdown;
-    toggleDropdown: (id: number, sourse: 'notes' | 'favorites') => void;
+    toggleDropdown: (id: number, source: 'notes' | 'favorites') => void;
     setSortType: (type: SortType) => void;
     sortType: SortType;
     isOpen: boolean;
@@ -55,7 +55,10 @@ function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, delete
         <ul className='notes-list'>
 
           {sortedNotes.map(note=> (
-            <li key={note.id} onClick={()=> onNoteClick(note.id)}>
+            <li key={note.id}
+            className={`${note.favorite ? 'favorite' : ''}`}
+            onClick={() => onNoteClick(note.id)
+            }>
 
               {editedId === note.id ? (
                 <input type="text"
@@ -63,7 +66,10 @@ function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, delete
                 value={note.title}
                 onChange={(e)=> updateTitle(note.id, e.target.value)}
                 onBlur={()=> setEditedId(null)}
-                onKeyDown={(e)=> {if (e.key === 'Enter') setEditedId(null)}} />
+                onKeyDown={(e)=> {if (e.key === 'Enter') setEditedId(null)
+                  
+                }} 
+                />
               ) : (
                 <h3>{note.title}</h3>
               )}
@@ -78,7 +84,7 @@ function NotesSection({filteredNotes, editedId, setEditedId, updateTitle, delete
               favorite={note.favorite}
               toggleDropdown={toggleDropdown}
               openDropdown={openDropdown}
-              sourse='notes'/>
+              source='notes'/>
             </li>
           ))}
         </ul>

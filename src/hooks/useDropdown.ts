@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 
 export type OpenDropdown = {
     id: number;
-    sourse: 'notes' | 'favorites';
+    source: 'notes' | 'favorites';
 } | null;
 
 export function useDropdown () {
@@ -10,9 +10,9 @@ export function useDropdown () {
 
     const [openDropdown, setOpenDropdown] = useState<OpenDropdown>(null);
 
-    const toggleDropdown = (id: number, sourse: 'notes' | 'favorites') => {
+    const toggleDropdown = (id: number, source: 'notes' | 'favorites') => {
         setOpenDropdown(prev=>
-            prev?.id === id && prev?.sourse === sourse ? null : {id, sourse}
+            prev?.id === id && prev?.source === source ? null : {id, source}
         )
     }
 
