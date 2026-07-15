@@ -305,7 +305,7 @@
 }
 
 @media (max-width: 600px) {
-    .noteList-container,
+    .notesList-container,
     .favList-container {
         padding: 16px 12px;
     }
